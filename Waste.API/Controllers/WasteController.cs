@@ -16,12 +16,22 @@ namespace Waste.API.Controllers
             _wasteService = wasteService ?? throw new ArgumentNullException(nameof(wasteService));
         }
 
+        #region WasteType
+
         [HttpGet]
         [Route("WasteTypes")]
         // add route and cal lmethod GetMaterialTypes
         public async Task<IEnumerable<WasteTypeDto>> WasteTypes()
         {
-            return await _wasteService.WasteTypes();
+            return await _wasteService.GetWasteTypes();
+        }
+
+        [HttpGet]
+        [Route("WasteTypes/{id}")]
+        // add route and cal lmethod GetMaterialTypes
+        public async Task<ActionResult> WasteType(int id)
+        {
+            return Ok(await _wasteService.GetWasteType(id));
         }
 
         [HttpGet]
@@ -31,19 +41,7 @@ namespace Waste.API.Controllers
             if (journeyId == null)
                 return BadRequest("Journey ID is missing");
 
-            return Ok(await _wasteService.GetWasteType(journeyId.Value));
-        }
-
-        [HttpPost]
-        [Route("Journey/{journeyId}/Month/{selectedMonth}")]
-        public async Task<IActionResult> SaveJourneyMonth(int journeyId, int? selectedMonth)
-        {
-            if (selectedMonth == null)
-                return BadRequest("Selected month is missing");
-
-            await _wasteService.SaveSelectedMonth(journeyId, selectedMonth.Value);
-
-            return Ok();
+            return Ok(await _wasteService.GetWasteTypeName(journeyId.Value));
         }
 
         [HttpPost]
@@ -62,6 +60,34 @@ namespace Waste.API.Controllers
 
             return Ok();
         }
+
+        [HttpPost]
+        [Route("Journey/{journeyId}/SubType/{wasteSubTypeId}")]
+        public async Task<IActionResult> SaveJourneyWasteSubType(int journeyId, int wasteSubTypeId)
+        {
+            //TODO: This should be removed in the fullness of time
+            var id = await _wasteService.CreateJourney();
+            await _wasteService.SaveWasteSubType(id, wasteSubTypeId);
+
+            return Ok();
+        }
+
+        #endregion
+
+
+        [HttpPost]
+        [Route("Journey/{journeyId}/Month/{selectedMonth}")]
+        public async Task<IActionResult> SaveJourneyMonth(int journeyId, int? selectedMonth)
+        {
+            if (selectedMonth == null)
+                return BadRequest("Selected month is missing");
+
+            await _wasteService.SaveSelectedMonth(journeyId, selectedMonth.Value);
+
+            return Ok();
+        }
+
+
 
         [HttpGet]
         [Route("Journey/{journeyId}/WhatHaveYouDoneWaste")]

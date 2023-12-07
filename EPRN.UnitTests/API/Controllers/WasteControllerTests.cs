@@ -31,7 +31,7 @@ namespace EPRN.UnitTests.API.Controllers
             //Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
-            _mockWasteService.Verify(s => s.GetWasteType(
+            _mockWasteService.Verify(s => s.GetWasteTypeName(
                  It.Is<int>(p => p == journeyId))
              );
         }
@@ -47,7 +47,7 @@ namespace EPRN.UnitTests.API.Controllers
             //Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
-            _mockWasteService.Verify(s => s.GetWasteType(
+            _mockWasteService.Verify(s => s.GetWasteTypeName(
                  It.IsAny<int>()), Times.Never
              );
         }

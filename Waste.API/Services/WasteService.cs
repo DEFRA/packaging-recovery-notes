@@ -64,7 +64,9 @@ namespace Waste.API.Services
             await _wasteRepository.Update(journeyRecord);
         }
 
-        public async Task<IEnumerable<WasteTypeDto>> WasteTypes()
+        #region WasteType
+
+        public async Task<IEnumerable<WasteTypeDto>> GetWasteTypes()
         {
             _wasteRepository.LazyLoading = false;
             await Task.CompletedTask;
@@ -79,6 +81,24 @@ namespace Waste.API.Services
             return _mapper.Map<List<WasteTypeDto>>(dbWasteTypes);
         }
 
+        public async Task<WasteTypeDto> GetWasteType(int wasteTypeId)
+        {
+            var wasteType = await _wasteRepository.GetById<WasteType>(wasteTypeId);
+            return wasteType == null ? null : _mapper.Map<WasteTypeDto>(wasteType);
+        }
+
+        public async Task<string> GetWasteTypeName(int journeyId)
+        {
+            var journeyRecord = await GetJourney(journeyId);
+            if (journeyRecord == null)
+                throw new ArgumentNullException(nameof(journeyRecord));
+
+            if (journeyRecord.WasteTypeId == null)
+                throw new ArgumentNullException(nameof(journeyRecord.WasteTypeId));
+
+            return journeyRecord.WasteType.Name;
+        }
+
         public async Task SaveWasteType(int journeyId, int wasteTypeId)
         {
             var journeyRecord = await GetJourney(journeyId);
@@ -88,6 +108,18 @@ namespace Waste.API.Services
             journeyRecord.WasteTypeId = wasteTypeId;
             await _wasteRepository.Update(journeyRecord);
         }
+
+        public async Task SaveWasteSubType(int journeyId, int wasteSubTypeId)
+        {
+            var journeyRecord = await GetJourney(journeyId);
+            if (journeyRecord == null)
+                throw new ArgumentNullException(nameof(journeyRecord));
+
+            journeyRecord.WasteSubTypeId = wasteSubTypeId;
+            await _wasteRepository.Update(journeyRecord);
+        }
+
+        #endregion
 
         public async Task<DoneWaste> GetWhatHaveYouDoneWaste(int journeyId)
         {
@@ -114,17 +146,7 @@ namespace Waste.API.Services
             await _wasteRepository.Update(journeyRecord);
         }
 
-        public async Task<string> GetWasteType(int journeyId)
-        {
-            var journeyRecord = await GetJourney(journeyId);
-            if (journeyRecord == null)
-                throw new ArgumentNullException(nameof(journeyRecord));
 
-            if (journeyRecord.WasteTypeId == null)
-                throw new ArgumentNullException(nameof(journeyRecord.WasteTypeId));
-
-            return journeyRecord.WasteType.Name;
-        }
 
         public async Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId)
         {

@@ -5,19 +5,26 @@ namespace Waste.API.Services.Interfaces
 {
     public interface IWasteService
     {
-        Task<IEnumerable<WasteTypeDto>> WasteTypes();
 
         Task<int> CreateJourney();
 
         Task SaveSelectedMonth(int journeyId, int selectedMonth);
 
-        Task SaveWasteType(int journeyId, int wasteTypeId);
-
         Task<DoneWaste> GetWhatHaveYouDoneWaste(int journeyId);
 
         Task SaveWhatHaveYouDoneWaste(int journeyId, DoneWaste whatHaveYouDoneWaste);
 
-        Task<string> GetWasteType(int journeyId);
+
+        Task<IEnumerable<WasteTypeDto>> GetWasteTypes();
+
+        Task<WasteTypeDto> GetWasteType(int wasteTypeId);
+
+        Task<string> GetWasteTypeName(int journeyId);
+
+        Task SaveWasteType(int journeyId, int wasteTypeId);
+
+        Task SaveWasteSubType(int journeyId, int wasteSubTypeId);
+
 
         Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId);
 
