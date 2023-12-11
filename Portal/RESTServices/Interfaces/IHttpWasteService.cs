@@ -6,6 +6,7 @@ namespace EPRN.Portal.RESTServices.Interfaces
     public interface IHttpWasteService
     {
         Task<IEnumerable<WasteTypeDto>> GetWasteMaterialTypes();
+        Task<WasteTypeDto> GetWasteMaterialType(int wasteTypeId);
 
         Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId);
 

@@ -65,6 +65,12 @@ namespace EPRN.Portal.Services
             };
         }
 
+        public async Task<WasteSubTypeRequestViewModel> GetWasteSubTypeRequest(int journeyId)
+        {
+            var wasteSubTypesDto = await _httpWasteService.GetWasteMaterialType(journeyId);
+            return wasteSubTypesDto == null ? null : _mapper.Map<WasteSubTypeRequestViewModel>(wasteSubTypesDto);
+        }
+
         public async Task SaveSelectedWasteType(WasteTypesViewModel wasteTypesViewModel)
         {
             if (wasteTypesViewModel == null)
@@ -170,6 +176,7 @@ namespace EPRN.Portal.Services
             await _httpWasteService.SaveBaledWithWire(baledWireModel.JourneyId, baledWireModel.BaledWithWire.Value);
 
         }
+
 
     }
 }

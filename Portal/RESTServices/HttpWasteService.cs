@@ -19,6 +19,11 @@ namespace EPRN.Portal.RESTServices
             return await Get<List<WasteTypeDto>>("WasteTypes");
         }
 
+        public async Task<WasteTypeDto> GetWasteMaterialType(int journeyId)
+        {
+            return await Get<WasteTypeDto>($"WasteTypes/{journeyId}");
+        }
+
         public async Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId)
         {
             return await Get<WasteRecordStatusDto>($"{journeyRoutePart}/{journeyId}/status");
@@ -58,5 +63,6 @@ namespace EPRN.Portal.RESTServices
         {
             await Post($"Journey/{journeyId}/BaledWithWire/{bailedWithWire}");
         }
+
     }
 }

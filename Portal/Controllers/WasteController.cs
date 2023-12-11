@@ -97,6 +97,17 @@ namespace EPRN.Portal.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> SubTypes(int journeyId)
+        {
+            WasteSubTypeRequestViewModel viewModel = await _wasteService.GetWasteSubTypeRequest(journeyId);
+            return View(viewModel);
+        }
+
+
+
+
         [HttpGet]
         [Route("/Status")]
         public async Task<IActionResult> GetWasteRecordStatus(int journeyId)

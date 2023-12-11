@@ -27,11 +27,11 @@ namespace Waste.API.Controllers
         }
 
         [HttpGet]
-        [Route("WasteTypes/{id}")]
+        [Route("journey/{journeyId}/WasteSubTypes")]
         // add route and cal lmethod GetMaterialTypes
-        public async Task<ActionResult> WasteType(int id)
+        public async Task<ActionResult> WasteType(int journeyId)
         {
-            return Ok(await _wasteService.GetWasteType(id));
+            return Ok(await _wasteService.GetWasteType(journeyId));
         }
 
         [HttpGet]
