@@ -26,7 +26,7 @@ namespace EPRN.UnitTests.API.Waste.Controllers
             await _wasteController.WasteTypes();
 
             // Assert
-            _mockWasteService.Verify(s => s.WasteTypes(), Times.Once());
+            _mockWasteService.Verify(s => s.WasteTypes(It.IsAny<bool>()), Times.Once());
         }
     }
 }
