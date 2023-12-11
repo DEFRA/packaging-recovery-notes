@@ -6,6 +6,7 @@ using EPRN.Portal.Resources;
 using EPRN.Portal.RESTServices.Interfaces;
 using EPRN.Portal.Services.Interfaces;
 using EPRN.Portal.ViewModels;
+using NuGet.Packaging;
 
 namespace EPRN.Portal.Services
 {
@@ -44,14 +45,15 @@ namespace EPRN.Portal.Services
             // get currently selected waste type for this journey
             JourneyWasteTypeDto journeyWasteTypeDto = await _httpJourneyService.GetJourneyWasteTypeDto(journeyId);
             if (journeyWasteTypeDto == null)
-                return vm;
+                throw new Exception("No waste type selected for this journey");
 
             // get currently selected waste sub-type for this journey
             JourneyWasteSubTypeDto journeyWasteSubTypeDto = await _httpJourneyService.GetJourneyWasteSubTypeDto(journeyId);
-            if (journeyWasteTypeDto == null)
-                return vm;
+            //if (journeyWasteSubTypeDto == null)
+            //    return vm;
 
-            vm.Adjustment = journeyWasteSubTypeDto.Adjustment;
+            vm.Adjustment = journeyWasteSubTypeDto?.Adjustment;
+
 
             // get collection of un-selected sub-waste types (lookups) based on the journey selected waste type
             var wasteSubTypeDtos = await _httpWasteService.GetWasteSubTypes(journeyWasteTypeDto.Id);
@@ -60,9 +62,7 @@ namespace EPRN.Portal.Services
             else
             {
                 foreach (var wasteSubTypeDto in wasteSubTypeDtos)
-                {
-                    vm.SubWasteTypes.Add(new (wasteSubTypeDto.Id, wasteSubTypeDto.Name, wasteSubTypeDto.Id == journeyWasteSubTypeDto.Id));
-                }
+                    vm.SubWasteTypes.Add(new(wasteSubTypeDto.Id, wasteSubTypeDto.Name, wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id));
             }
 
             return vm;
