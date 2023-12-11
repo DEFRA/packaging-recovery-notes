@@ -30,9 +30,7 @@ namespace EPRN.Portal.Controllers
                 return BadRequest();
 
             if (!ModelState.IsValid)
-            {
                 return await SubWasteType(vm.JourneyId);
-            }
 
             await _journeyService.SaveJourneySubWaste(vm);
 

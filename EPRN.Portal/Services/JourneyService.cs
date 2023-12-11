@@ -62,7 +62,20 @@ namespace EPRN.Portal.Services
             else
             {
                 foreach (var wasteSubTypeDto in wasteSubTypeDtos)
-                    vm.SubWasteTypes.Add(new(wasteSubTypeDto.Id, wasteSubTypeDto.Name, wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id));
+                {
+                    var subWasteTypeVm = new JourneySubWasteTypeViewModel
+                    {
+                        Id = wasteSubTypeDto.Id,
+                        Name = wasteSubTypeDto.Name,
+                        Adjustment = (double)wasteSubTypeDto.Adjustment,
+                        IsSelected = journeyWasteSubTypeDto == null ? false : wasteSubTypeDto.Id == journeyWasteSubTypeDto.Id
+                    };
+                    if (journeyWasteSubTypeDto != null)
+                        subWasteTypeVm.IsSelected = wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id;
+
+                    vm.SubWasteTypes.Add(subWasteTypeVm);
+                    //vm.SubWasteTypes.Add(new(wasteSubTypeDto.Id, wasteSubTypeDto.Name, wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id));
+                }
             }
 
             return vm;

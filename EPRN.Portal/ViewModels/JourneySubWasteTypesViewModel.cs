@@ -5,13 +5,19 @@ namespace EPRN.Portal.ViewModels
 {
     public class JourneySubWasteTypesViewModel
     {
+        public JourneySubWasteTypesViewModel()
+        {
+            SubWasteTypes = new List<JourneySubWasteTypeViewModel>();
+        }
+
         public int JourneyId { get; set; }
 
-        public List<(int, string, bool)> SubWasteTypes { get; set; } = new List<(int, string, bool)>();
+        public List<JourneySubWasteTypeViewModel> SubWasteTypes { get; set; }
 
         [Required(ErrorMessageResourceName = "MissingSubWasteTypeSelectionMessage", ErrorMessageResourceType = typeof(SubWasteTypesResources))]
         public int? SelectedSubWasteTypeId { get; set; }
         
         public double? Adjustment { get; set; }
     }
+
 }

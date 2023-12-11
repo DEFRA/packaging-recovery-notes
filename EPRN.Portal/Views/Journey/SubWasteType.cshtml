@@ -17,20 +17,22 @@
         </p>
         @foreach (var subWasteType in Model.SubWasteTypes)
         {
-            if (subWasteType.Item2.ToUpper() != "OTHER")
+            if (subWasteType.Name.ToUpper() != "OTHER")
             {
                 <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Item1" checked="@subWasteType.Item3">
-                <label class="govuk-label govuk-radios__label" for="@subWasteType.Item1">
-                    @localizationHelper.GetString(subWasteType.Item2)
+                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Id" checked="@subWasteType.IsSelected">
+                    <input type="hidden" asp-for="Adjustment" value="@subWasteType.Adjustment">
+                    <label class="govuk-label govuk-radios__label" for="@subWasteType.Id">
+                    @localizationHelper.GetString(subWasteType.Name)
                 </label>
                 </div>
             }
             else
             {
                 <div class="govuk-radios__item">
-                    <span>@localizationHelper.GetString(@subWasteType.Item2)</span>
-                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Item1">
+                    <span>@localizationHelper.GetString(@subWasteType.Name)</span>
+                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Id">
+                    <input type="hidden" asp-for="Adjustment" value="@subWasteType.Adjustment">
                     <input class="govuk-input" type="input" asp-for="Adjustment" value="@Model.Adjustment">
                 </div>
             }
