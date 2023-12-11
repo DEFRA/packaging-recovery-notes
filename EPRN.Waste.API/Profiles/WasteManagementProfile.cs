@@ -10,6 +10,8 @@ namespace EPRN.Waste.API.Profiles
         {
             CreateMap<WasteType, WasteTypeDto>();
             CreateMap<WasteSubType, WasteSubTypeDto>();
+            CreateMap<WasteType, JourneyWasteTypeDto>();
+            CreateMap<WasteSubType, JourneyWasteSubTypeDto>();
         }
     }
 }

@@ -92,7 +92,7 @@ namespace EPRN.Waste.API.Services
             await _wasteRepository.Update(journeyRecord);
         }
 
-        public async Task<string> GetWasteType(int journeyId)
+        public async Task<JourneyWasteTypeDto> GetWasteType(int journeyId)
         {
             var journeyRecord = await GetJourney(journeyId);
             if (journeyRecord == null)
@@ -101,7 +101,23 @@ namespace EPRN.Waste.API.Services
             if (journeyRecord.WasteTypeId == null)
                 throw new ArgumentNullException(nameof(journeyRecord.WasteTypeId));
 
-            return journeyRecord.WasteType.Name;
+            return _mapper.Map<JourneyWasteTypeDto>(journeyRecord.WasteType); 
+        }
+
+        public async Task<JourneyWasteSubTypeDto> GetWasteSubType(int journeyId)
+        {
+            var journeyRecord = await GetJourney(journeyId);
+            if (journeyRecord == null)
+                throw new ArgumentNullException(nameof(journeyRecord));
+
+            if (journeyRecord.WasteTypeId == null)
+                throw new ArgumentNullException(nameof(journeyRecord.WasteTypeId));
+
+            var journeyWasteSubTypeDto = _mapper.Map<JourneyWasteSubTypeDto>(journeyRecord.WasteSubType);
+
+            journeyWasteSubTypeDto.Adjustment = journeyRecord.Adjustment != null ? journeyRecord.Adjustment.Value : journeyWasteSubTypeDto.Adjustment;
+
+            return journeyWasteSubTypeDto;
         }
 
         public async Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId)
@@ -171,5 +187,7 @@ namespace EPRN.Waste.API.Services
             journeyRecord.SiteId = siteId;
             await _wasteRepository.Update(journeyRecord);
         }
+
+
     }
 }

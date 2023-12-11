@@ -21,5 +21,10 @@ namespace EPRN.Portal.RESTServices.Interfaces
         Task SaveBaledWithWire(int journeyId, bool baledWithWire);
 
         Task SaveReprocessorExport(int journeyId, int siteId);
+
+        Task SaveSelectedSubWasteType(int journeyId, int selectedSubWasteTypeId, double? adjustment);
+        Task<JourneyWasteTypeDto> GetJourneyWasteTypeDto(int journeyId);
+
+        Task<JourneyWasteSubTypeDto> GetJourneyWasteSubTypeDto(int journeyId);
     }
 }

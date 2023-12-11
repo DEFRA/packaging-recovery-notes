@@ -16,5 +16,11 @@ namespace EPRN.Portal.RESTServices
         {
             return await Get<List<WasteTypeDto>>("Types");
         }
+
+        public async Task<IEnumerable<WasteSubTypeDto>> GetWasteSubTypes(int wasteTypeId)
+        {
+            var response = await Get<IEnumerable<WasteSubTypeDto>>($"Types/{wasteTypeId}/wasteSubTypes");
+            return response;
+        }
     }
 }

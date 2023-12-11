@@ -5,6 +5,6 @@ namespace EPRN.Portal.Services.Interfaces
     public interface IJourneyService
     {
         Task<JourneySubWasteTypesViewModel> GetJourneySubWaste(int journeyId);
-        Task<JourneySubWasteTypesViewModel> SaveJourneySubWaste(JourneySubWasteTypesViewModel model);
+        Task SaveJourneySubWaste(JourneySubWasteTypesViewModel model);
     }
 }

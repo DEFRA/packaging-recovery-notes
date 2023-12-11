@@ -15,7 +15,9 @@ namespace EPRN.Waste.API.Services.Interfaces
 
         Task SaveWhatHaveYouDoneWaste(int journeyId, DoneWaste whatHaveYouDoneWaste);
 
-        Task<string> GetWasteType(int journeyId);
+        Task<JourneyWasteTypeDto> GetWasteType(int journeyId);
+
+        Task<JourneyWasteSubTypeDto> GetWasteSubType(int journeyId);
 
         Task<WasteRecordStatusDto> GetWasteRecordStatus(int journeyId);
 

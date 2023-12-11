@@ -15,7 +15,7 @@ namespace EPRN.Portal.Controllers
         }
 
         [HttpGet]
-        [Route("{journeyId}/waste/subWasteType")]
+        [Route("{journeyId}/subWasteType")]
         public async Task<IActionResult> SubWasteType(int journeyId)
         {
             JourneySubWasteTypesViewModel vm = await _journeyService.GetJourneySubWaste(journeyId);
@@ -23,7 +23,7 @@ namespace EPRN.Portal.Controllers
         }
 
         [HttpPost]
-        [Route("{journeyId}/waste/subWasteType")]
+        [Route("{journeyId}/subWasteType")]
         public async Task<IActionResult> SubWasteType(JourneySubWasteTypesViewModel vm)
         {
             if (vm == null)

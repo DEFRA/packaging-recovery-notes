@@ -120,8 +120,9 @@ namespace EPRN.UnitTests.API.Waste.Services
 
             // assert
             Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(string));
-            Assert.AreEqual(result, expectedWasteType);
+            Assert.IsNotNull(result.Name);
+            Assert.IsInstanceOfType(result.Name, typeof(string));
+            Assert.AreEqual(result.Name, expectedWasteType);
             _mockRepository.Verify(r => r.GetById<WasteJourney>(It.Is<int>(p => p == journeyId)), Times.Once());
         }
 
