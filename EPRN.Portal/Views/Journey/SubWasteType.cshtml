@@ -33,7 +33,14 @@
                     <span>@localizationHelper.GetString(@subWasteType.Name)</span>
                     <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Id">
                     <input type="hidden" asp-for="Adjustment" value="@subWasteType.Adjustment">
-                    <input class="govuk-input" type="input" asp-for="Adjustment" value="@Model.Adjustment">
+                    @if (subWasteType.IsSelected)
+                    {
+                        <input class="govuk-input" type="input" asp-for="Adjustment" value="@Model.Adjustment">
+                    }
+                    else
+                    {
+                        <input class="govuk-input" type="input" asp-for="Adjustment" value="">
+                    }
                 </div>
             }
         }
