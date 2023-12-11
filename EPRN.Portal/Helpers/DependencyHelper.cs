@@ -56,6 +56,7 @@ namespace EPRN.Portal.Helpers
             services.AddTransient(typeof(ILocalizationHelper<>), typeof(LocalizationHelper<>));
             services.AddSingleton<IQueryStringHelper, QueryStringHelper>();
             services.AddTransient<IWasteService, WasteService>();
+            services.AddTransient<IJourneyService, JourneyService>();
             services.AddTransient<IHttpWasteService>(s =>
             {
                 // create a new http service using the configuration for restful services and a http client factory

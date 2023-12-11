@@ -1,0 +1,32 @@
+﻿@model EPRN.Portal.ViewModels.JourneySubWasteTypesViewModel;
+@inject ILocalizationHelper<WasteTypesResources> localizationHelper
+
+@{
+    ViewData["Title"] = @SubWasteTypesResources.SubWasteTypeOptionsTitle;
+}
+
+<a href="/" class="govuk-back-link">@MasterResources.Back</a>
+
+<form method="post">
+    <input type="hidden" asp-for="JourneyId" />
+    <partial name="_ValidationSummary" />
+
+    <radios id="SelectedSubWasteTypeId" asp-for="SelectedSubWasteTypeId" asp-title="@SubWasteTypesResources.SubWasteTypeOptionsTitle">
+        <p class="govuk-error-message">
+            <span asp-validation-for="SelectedSubWasteTypeId"></span>
+        </p>
+        @foreach (var subWasteType in Model.SubWasteTypes)
+        {
+            <div class="govuk-radios__item">
+                <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Key">
+                <label class="govuk-label govuk-radios__label" for="@subWasteType.Key">
+                    @localizationHelper.GetString(subWasteType.Value)
+                </label>
+            </div>
+        }
+    </radios>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+        @MasterResources.ContinueBtn
+    </button>
+</form>

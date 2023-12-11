@@ -60,6 +60,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ReProcessorExportResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\SubWasteTypesResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SubWasteTypesResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\WasteJourneyResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -114,6 +119,10 @@
     <EmbeddedResource Update="Resources\ReProcessorExportResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ReProcessorExportResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SubWasteTypesResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SubWasteTypesResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\WasteJourneyResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
