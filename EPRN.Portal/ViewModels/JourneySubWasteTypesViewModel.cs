@@ -11,5 +11,7 @@ namespace EPRN.Portal.ViewModels
 
         [Required(ErrorMessageResourceName = "MissingSubWasteTypeSelectionMessage", ErrorMessageResourceType = typeof(SubWasteTypesResources))]
         public int? SelectedSubWasteTypeId { get; set; }
+        
+        public double? AgreedAmount { get; set; }
     }
 }

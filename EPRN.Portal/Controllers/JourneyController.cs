@@ -18,8 +18,25 @@ namespace EPRN.Portal.Controllers
         [Route("{journeyId}/waste/subWasteType")]
         public async Task<IActionResult> SubWasteType(int journeyId)
         {
-            JourneySubWasteTypesViewModel vm = await _journeyService.GetJourneySubWasteRequest(journeyId);
+            JourneySubWasteTypesViewModel vm = await _journeyService.GetJourneySubWaste(journeyId);
             return View(vm);
+        }
+
+        [HttpPost]
+        [Route("{journeyId}/waste/subWasteType")]
+        public async Task<IActionResult> SubWasteType(JourneySubWasteTypesViewModel vm)
+        {
+            if (vm == null)
+                return BadRequest();
+
+            if (!ModelState.IsValid)
+            {
+                return await SubWasteType(vm.JourneyId);
+            }
+
+            await _journeyService.SaveJourneySubWaste(vm);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

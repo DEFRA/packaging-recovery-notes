@@ -17,12 +17,22 @@
         </p>
         @foreach (var subWasteType in Model.SubWasteTypes)
         {
-            <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Key">
+            if (subWasteType.Value.ToUpper() != "OTHER")
+            {
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Key">
                 <label class="govuk-label govuk-radios__label" for="@subWasteType.Key">
                     @localizationHelper.GetString(subWasteType.Value)
                 </label>
-            </div>
+                </div>
+            }
+            else
+            {
+                <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" type="radio" asp-for="SelectedSubWasteTypeId" value="@subWasteType.Key">
+                    <input class="govuk-input" type="input" asp-for="AgreedAmount" value="@Model.AgreedAmount">
+                </div>
+            }
         }
     </radios>
 
