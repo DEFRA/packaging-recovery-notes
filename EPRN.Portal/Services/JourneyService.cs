@@ -29,15 +29,6 @@ namespace EPRN.Portal.Services
 
         #region journey sub waste type
 
-
-        /// <summary>
-        /// Get currently selected waste type.
-        /// If it exists then get relevant un-selected list of sub-wast types
-        /// Assign selected sub-waste type, if selected
-        /// Assign adjustment, if [other] sub-waste type selected
-        /// </summary>
-        /// <param name="journeyId"></param>
-        /// <returns></returns>
         public async Task<JourneySubWasteTypesViewModel> GetJourneySubWaste(int journeyId)
         {
             var vm = new JourneySubWasteTypesViewModel { JourneyId = journeyId };
@@ -47,38 +38,41 @@ namespace EPRN.Portal.Services
             if (journeyWasteTypeDto == null)
                 throw new Exception("No waste type selected for this journey");
 
+            // get collection of un-selected sub-waste types (lookups) based on the journey selected waste type
+            vm.SubWasteTypes.AddRange(await GetJourneyWasteSubTypes(journeyWasteTypeDto.Id));
+
             // get currently selected waste sub-type for this journey
             JourneyWasteSubTypeDto journeyWasteSubTypeDto = await _httpJourneyService.GetJourneyWasteSubTypeDto(journeyId);
-            //if (journeyWasteSubTypeDto == null)
-            //    return vm;
-
-            vm.Adjustment = journeyWasteSubTypeDto?.Adjustment;
-
-
-            // get collection of un-selected sub-waste types (lookups) based on the journey selected waste type
-            var wasteSubTypeDtos = await _httpWasteService.GetWasteSubTypes(journeyWasteTypeDto.Id);
-            if (wasteSubTypeDtos == null || !wasteSubTypeDtos.Any())
+            if (journeyWasteSubTypeDto == null)
                 return vm;
             else
             {
-                foreach (var wasteSubTypeDto in wasteSubTypeDtos)
-                {
-                    var subWasteTypeVm = new JourneySubWasteTypeViewModel
-                    {
-                        Id = wasteSubTypeDto.Id,
-                        Name = wasteSubTypeDto.Name,
-                        Adjustment = (double)wasteSubTypeDto.Adjustment,
-                        IsSelected = journeyWasteSubTypeDto == null ? false : wasteSubTypeDto.Id == journeyWasteSubTypeDto.Id
-                    };
-                    if (journeyWasteSubTypeDto != null)
-                        subWasteTypeVm.IsSelected = wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id;
-
-                    vm.SubWasteTypes.Add(subWasteTypeVm);
-                    //vm.SubWasteTypes.Add(new(wasteSubTypeDto.Id, wasteSubTypeDto.Name, wasteSubTypeDto.Id == journeyWasteSubTypeDto?.Id));
-                }
+                vm.Adjustment = journeyWasteSubTypeDto?.Adjustment;
+                var matchingSubWasteType = vm.SubWasteTypes.SingleOrDefault(x => x.Id == journeyWasteSubTypeDto.Id);
+                if(matchingSubWasteType != null)
+                    matchingSubWasteType.IsSelected = true;
             }
 
             return vm;
+        }
+
+        private async Task<IEnumerable<JourneySubWasteTypeViewModel>> GetJourneyWasteSubTypes(int journeyWasteTypeId)
+        {
+            var subWasteTypes = new List<JourneySubWasteTypeViewModel>();
+
+            var wasteSubTypeDtos = await _httpWasteService.GetWasteSubTypes(journeyWasteTypeId);
+            if (wasteSubTypeDtos == null || !wasteSubTypeDtos.Any())
+                return null;
+
+            subWasteTypes.AddRange(wasteSubTypeDtos.Select(x => new JourneySubWasteTypeViewModel
+            {
+                Adjustment = (double)x.Adjustment,
+                Id = x.Id,
+                IsSelected = false,
+                Name = x.Name
+            }));
+
+            return subWasteTypes;
         }
 
         public async Task SaveJourneySubWaste(JourneySubWasteTypesViewModel vm)
